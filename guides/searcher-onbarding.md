@@ -1,19 +1,48 @@
 # Flashbots Alpha
 
-A collection of relevant information related to the Flashbots Alpha release and running bots using Flashbots. This document will be continuously updated as we receive more questions from you.
+A collection of relevant information for searchers looking to use Flashbots Alpha. This document will be continuously updated as we receive more questions from you.
 
 ## Contents
-1. [Announcement](#announcement)
+1. [Summary](#summary)
 2. [FAQ](#frequently-asked-questions)
 3. [Resources](#resources)
 
-## Announcement on Jan 6 (updated given changes to alpha)
+## Summary
+### What is the Flashbots Alpha?
+
+Flashbots Alpha is a proof-of-concept implementation of a direct communication channel between miners and Ethereum users that would like to communicate their preferred transaction order within a block (searchers). 
+
+Instead of broadcasting to the peer-to-peer network and competing with all Ethereum users, Flashbots users bid against each other in providing a reward directly to miners through a first-price sealed-bid auction. DeFi traders such as liquidators and arbitrageurs, can use Flashbots to bid for transaction inclusion without paying any gas fee for failed transactions, nor do they need to worry about leaking strategies in the mempool before their trade is mined on-chain. 
+Miners and/or mining pools can receive MEV revenue, which is expected to be higher than revenue from mining regular blocks, for including the most profitable transaction bundles submitted by Flashbots users.
+
+Flashbots aim to provide a "direct fast lane" for transaction inclusion with an efficient, fair and sustainable MEV auction mechanism, potentially reducing network congestion and lowering transaction fees for regular Ethereum users while increasing revenues for miners.
+
+We are currently in the Alpha phase of infrastructure development and are quickly iterating in public towards a permissionless infrastructure, as set forth in the [mission](https://medium.com/flashbots/frontrunning-the-mev-crisis-40629a613752) of Flashbots' organization. We welcome all ecosystem participants to provide early technical feedback via Github issues and pull requests in the relevant [repos](https://github.com/flashbots), create open-source toolings to improve transparency within Flashbots ecosystem, and participate in ongoing discussions on Flashbots' [Discord](https://discord.gg/3TjWjBerRb)!
+
+### Flashbots Alpha is composed of MEV-relay & MEV-geth
+
+Any miner and mining pool can run [MEV-geth](https://github.com/flashbots/mev-geth), a simple patch on the [geth](https://geth.ethereum.org/) codebase (see [summary](https://github.com/flashbots/mev-geth#what-is-the-difference-between-mev-geth-and-geth) that allows miners to accept Flashbots bundles.
+
+We've built a hosted gateway called `mev-relay` that receives bundles from searchers and forwards them to mining pools who registered their `mev-geth` nodes with Flashbots. Using MEV-relay is required during the alpha to aggregate bundle requests from all users, prevent spam and DOS attacks on participating miner(s)/mining pool(s), and collect necessary system health metrics. You can find the `mev-relay` source code [here](https://bit.ly/390zf8b). We are working to remove this requirement in future releases of mev-geth.
+
+### Onboard Flashbots Alpha as a Searcher
+
+Just send your Flashbots transaction bundles
+
+While we previously required API keys, we've removed this constraint and you can start using Flashbots alpha by submitting transaction bundles to relay.flashbots.net!
+
+We recommend you to join the [#🤖searchers](https://discord.gg/KNFBvZzJyT) channel on Discord.
+
+
+Here are the resources currently available to help you setup MEV-geth:
+
+See you on chain ! :zap::robot: 
+
+
 
 To start off 2021 with a bang, Flashbots is entering Alpha today. 
 
-You can start submitting transaction bundles on mainnet by following these steps:
-1. Join [#🤖searchers](https://discord.gg/KNFBvZzJyT) channel on Discord
-2. Update your searcher scripts to send bundles to `relay.flashbots.net` 
+
 
 After successfully mining our first bundle in block [11550019](https://bit.ly/38ahRyC) and doing reliability testing over the following days, we are ready to open this proof of concept to the public for anyone to get their Ethereum transactions prioritized using Flashbots bundles. We've open sourced the simple arbitrage searcher @epheph#8354 built for testing [here](https://bit.ly/3hGbDtk). You should be able to run this searcher out of the box.
 
